@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra de Bots e Planos Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #121212, #1e1e1e);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: rgba(30, 30, 30, 0.95);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        header h1 {
+            margin: 0;
+            color: #50e3c2;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .login-form, .plan-card, .bot-card, .cart {
+            background: rgba(40, 40, 40, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .login-form input, .login-form button, .plan-card button, .bot-card button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .login-form input {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .login-form button {
+            background: #50e3c2;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .login-form button:hover {
+            background: #4aa03a;
+        }
+
+        .plan-card, .bot-card {
+            text-align: center;
+        }
+
+        .plan-card h2, .bot-card h2 {
+            color: #50e3c2;
+        }
+
+        .plan-card button, .bot-card button {
+            background: #4a90e2;
+            color: #fff;
+        }
+
+        .plan-card button:hover, .bot-card button:hover {
+            background: #357ab7;
+        }
+
+        .cart {
+            display: none; /* Oculta o carrinho inicialmente */
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(30, 30, 30, 0.95);
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Popup */
+        .popup {
+            display: none; /* Oculta o popup inicialmente */
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(50, 50, 50, 0.9);
+            border-radius: 8px;
+            padding: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .popup h3 {
+            color: #50e3c2;
+        }
+
+        .popup button {
+            background: #e74c3c;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        .popup button.confirm {
+            background: #50e3c2;
+        }
+
+        .popup button:hover {
+            background: #c0392b;
+        }
+
+        .popup button.confirm:hover {
+            background: #4aa03a;
+        }
+
+        #uploadForm {
+            display: none;
+            margin-top: 20px; /* Adiciona espaço acima do formulário */
+        }
+
+        .upload-button {
+            background: #FFA500; /* Cor do botão de upload */
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .upload-button:hover {
+            background: #FF8C00;
+        }
+
+        .bot-list {
+            margin-top: 20px;
+        }
+
+        .bot-list div {
+            margin: 10px 0;
+            background: rgba(50, 50, 50, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .login-form, .plan-card, .bot-card, .cart {
+                margin: 10px;
+            }
+
+            .login-form input, .login-form button, .plan-card button, .bot-card button {
+                width: calc(100% - 20px);
+            }
+            .stylo-compra{
+                position: relative;
+                font-size: 1;
+                background-color: #4a90e2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Compra de Bots e Planos Premium</h1>
+    </header>
+    <div class="container">
+        <div class="plan-card" id="premiumPlans">
+            <h2>Planos Premium</h2>
+            <p>Escolha um dos nossos planos premium para aproveitar funcionalidades exclusivas!</p>
+            <div>
+                <h3>Plano Básico - R$5,00</h3>
+                <p>Descrição do plano básico.</p>
+                <button onclick="selectPlan('Plano Básico', 5.00)">Selecionar</button>
+            </div>
+            <div>
+                <h3>Plano Avançado - R$7,50</h3>
+                <p>Descrição do plano avançado.</p>
+                <button onclick="selectPlan('Plano Avançado', 7.50)">Selecionar</button>
+            </div>
+            <div>
+                <h3>Plano Premium - R$10,00</h3>
+                <p>Descrição do plano premium.</p>
+                <button onclick="selectPlan('Plano Premium', 10.00)">Selecionar</button>
+            </div>
+        </div>
+
+        <div class="bot-card" id="availableBots">
+            <h2>Bots Disponíveis</h2>
+            <p>Veja nossos bots disponíveis para compra.</p>
+            <div class="bot-list" id="botList"></div>
+            <button class="upload-button" onclick="showUploadForm()">Fazer Upload de Bot</button>
+            <div id="uploadForm">
+                <h3>Upload de Bot</h3>
+                <input type="text" id="botName" placeholder="Nome do Bot" required>
+                <input type="text" id="botDescription" placeholder="Descrição (opcional)">
+                <input type="number" id="botPrice" placeholder="Preço" required>
+                <input type="file" id="botFile" required>
+                <button onclick="uploadBot()">Fazer Upload</button>
+                <button onclick="closeUploadForm()">Fechar</button>
+            </div>
+        </div>
+
+        <div class="cart" id="cart">
+            <h2>Carrinho</h2>
+            <div id="cartItems">Nenhum item no carrinho.</div>
+            <button onclick="proceedToCheckout()" class="stylo-compra">Finalizar Compra</button>
+        </div>
+
+        <div class="login-form" id="loginForm" style="display: none;">
+            <h2>Faça seu Login</h2>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Senha" required>
+            <button>Login com Email</button>
+            <button style="background: #DB4437;">Login com Google</button>
+        </div>
+
+        <!-- Popup -->
+        <div class="popup" id="popup">
+            <h3 id="popupTitle"></h3>
+            <p id="popupDescription"></p>
+            <p id="popupPrice"></p>
+            <button class="confirm" id="confirmButton" onclick="addToCart()">Confirmar</button>
+            <button onclick="closePopup()">Fechar</button>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Site Jupter. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        let selectedPlan = null;
+        let cartItems = [];
+        let selectedBot = null;
+        let bots = JSON.parse(localStorage.getItem('bots')) || [];
+
+        function displayBots() {
+            const botList = document.getElementById('botList');
+            botList.innerHTML = ''; // Limpa a lista de bots
+
+            bots.forEach(bot => {
+                const botItem = document.createElement('div');
+                botItem.innerHTML = `<h3>${bot.name}</h3><p>${bot.description}</p><p>Preço: R$${bot.price.toFixed(2)}</p><button onclick="confirmAddToCart('${bot.name}')">Selecionar</button>`;
+                botList.appendChild(botItem);
+            });
+        }
+
+        function selectPlan(planName, planPrice) {
+            if (selectedPlan) {
+                alert('Você já selecionou um plano. Para mudar, finalize a compra.');
+                return;
+            }
+            selectedPlan = { name: planName, price: planPrice };
+            showPopup(`Você selecionou ${planName}`, `Descrição do ${planName}.`, `R$${planPrice.toFixed(2)}`);
+        }
+
+        function confirmAddToCart(botName) {
+            selectedBot = bots.find(bot => bot.name === botName);
+            showPopup(`Você selecionou ${selectedBot.name}`, `Descrição do ${selectedBot.description}.`, `Preço: R$${selectedBot.price.toFixed(2)}`);
+        }
+
+        function showPopup(title, description, price) {
+            document.getElementById('popupTitle').innerText = title;
+            document.getElementById('popupDescription').innerText = description;
+            document.getElementById('popupPrice').innerText = price ? `Preço: ${price}` : '';
+            document.getElementById('popup').style.display = 'block'; // Exibe o popup
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none'; // Oculta o popup
+        }
+
+        function addToCart() {
+            if (selectedPlan) {
+                cartItems.push({ name: selectedPlan.name, price: selectedPlan.price });
+            }
+            if (selectedBot) {
+                const existingBot = cartItems.find(item => item.name === selectedBot.name);
+                if (!existingBot) {
+                    cartItems.push(selectedBot);
+                    alert(`${selectedBot.name} adicionado ao carrinho!`);
+                } else {
+                    alert(`${selectedBot.name} já está no carrinho!`);
+                }
+            }
+            updateCart();
+            closePopup();
+        }
+
+        function addToCart() {
+            if (selectedPlan) {
+                cartItems.push({ name: selectedPlan.name, price: selectedPlan.price });
+                alert(`${selectedPlan.name} adicionado ao carrinho!`);
+                selectedPlan = null; // Reseta o plano selecionado
+                updateCart(); // Atualiza o carrinho
+            }
+            closePopup();
+        }
+
+        function updateCart() {
+            document.getElementById('cart').style.display = 'block'; // Exibe o carrinho
+            const cartItemsContainer = document.getElementById('cartItems');
+            cartItemsContainer.innerHTML = ''; // Limpa o carrinho
+
+            if (cartItems.length === 0) {
+                cartItemsContainer.innerHTML = 'Nenhum item no carrinho.';
+                return;
+            }
+
+            cartItems.forEach((item, index) => {
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.className = 'cart-item';
+                cartItemDiv.innerHTML = `
+                    <span>${item.name} - R$${item.price.toFixed(2)}</span>
+                    <button onclick="removeFromCart(${index})">Excluir</button>
+                `;
+                cartItemsContainer.appendChild(cartItemDiv);
+            });
+        }
+
+        function removeFromCart(index) {
+            cartItems.splice(index, 1); // Remove o item do carrinho
+            updateCart(); // Atualiza o carrinho
+        }
+
+       
+
+        function removeFromCart(index) {
+            cartItems.splice(index, 1); // Remove o item do carrinho
+            updateCart(); // Atualiza o carrinho
+        }
+
+        function proceedToCheckout() {
+            let message = 'Olá, gostaria de adquirir: \n';
+            cartItems.forEach(item => {
+                message += `${item.name} - R$${item.price ? item.price.toFixed(2) : ''}\n`;
+            });
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=556981134127&text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+            alert('Compra finalizada!');
+        }
+
+        function showUploadForm() {
+            document.getElementById('uploadForm').style.display = 'block';
+        }
+
+        function closeUploadForm() {
+            document.getElementById('uploadForm').style.display = 'none';
+        }
+
+        function uploadBot() {
+            const user = prompt("Digite o usuário:");
+            const password = prompt("Digite a senha:");
+
+            if (user === "kmoods" && password === "10052008") {
+                const botName = document.getElementById('botName').value;
+                const botDescription = document.getElementById('botDescription').value;
+                const botPrice = parseFloat(document.getElementById('botPrice').value);
+                const botFile = document.getElementById('botFile').files[0];
+
+                if (!botName || !botFile || isNaN(botPrice)) {
+                    alert("Nome do bot, arquivo e preço são obrigatórios.");
+                    return;
+                }
+
+                const newBot = {
+                    name: botName,
+                    description: botDescription,
+                    price: botPrice
+                };
+
+                bots.push(newBot);
+                localStorage.setItem('bots', JSON.stringify(bots)); // Salva os bots no localStorage
+                displayBots(); // Atualiza a lista de bots
+
+                closeUploadForm();
+                document.getElementById('botName').value = '';
+                document.getElementById('botDescription').value = '';
+                document.getElementById('botPrice').value = '';
+                document.getElementById('botFile').value = '';
+            } else {
+                alert("Usuário ou senha incorretos!");
+            }
+        }
+
+        // Exibe os bots ao carregar a página
+        displayBots();
+    </script>
+</body>
+</html>
