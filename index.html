@@ -180,6 +180,39 @@
                 background-color: #4a90e2;
             }
         }
+        
+        .checkout-btn {
+            background-color: #00cc66;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .checkout-btn:hover {
+            background-color: #00994d;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .checkout-btn:active {
+            transform: scale(0.98);
+        }
+        .remove-btn {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    font-size: 22px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.remove-btn:hover {
+    color: #ff6b6b;
+}
+
     </style>
 </head>
 <body>
@@ -191,25 +224,25 @@
             <h2>Planos Premium</h2>
             <p>Escolha um dos nossos planos premium para aproveitar funcionalidades exclusivas!</p>
             <div>
-                <h3>Plano Básico - R$5,00</h3>
-                <p>Descrição do plano básico.</p>
-                <button onclick="selectPlan('Plano Básico', 5.00)">Selecionar</button>
+                <h3>Plano Básico - R$2,00</h3>
+                <p>Alem do plano basico caber no seu bolso, você tera acesso ao menu premium.</p>
+                <button onclick="selectPlan('Plano Básico', 2.00)">Selecionar</button>
             </div>
             <div>
-                <h3>Plano Avançado - R$7,50</h3>
-                <p>Descrição do plano avançado.</p>
-                <button onclick="selectPlan('Plano Avançado', 7.50)">Selecionar</button>
+                <h3>Plano Avançado - R$6,50</h3>
+                <p>No plano avançado, você tera acesso ao menu eo um grupo vip com contato direto com os adm e la tera as novidades antecipadas do Jupter lá tera um bot somente para os vip.</p>
+                <button onclick="selectPlan('Plano Avançado', 6.50)">Selecionar</button>
             </div>
             <div>
-                <h3>Plano Premium - R$10,00</h3>
-                <p>Descrição do plano premium.</p>
-                <button onclick="selectPlan('Plano Premium', 10.00)">Selecionar</button>
+                <h3>Plano Premium - R$9,00</h3>
+                <p>No plano premium você tera, acesso ao grupo vip, acesso ao bot vip, pedir comandos novos (ilimitados), e podera ter um bot para seu grupo de WhatsApp (opcional)</p>
+                <button onclick="selectPlan('Plano Premium', 9.00)">Selecionar</button>
             </div>
         </div>
 
         <div class="bot-card" id="availableBots">
             <h2>Bots Disponíveis</h2>
-            <p>Veja nossos bots disponíveis para compra.</p>
+            <p>Veja nossos bots disponíveis para download.</p>
             <div class="bot-list" id="botList"></div>
             <button class="upload-button" onclick="showUploadForm()">Fazer Upload de Bot</button>
             <div id="uploadForm">
@@ -226,16 +259,11 @@
         <div class="cart" id="cart">
             <h2>Carrinho</h2>
             <div id="cartItems">Nenhum item no carrinho.</div>
-            <button onclick="proceedToCheckout()" class="stylo-compra">Finalizar Compra</button>
+            
+            <button onclick="proceedToCheckout()" class="checkout-btn" >Finalizar Compra</button>
         </div>
 
-        <div class="login-form" id="loginForm" style="display: none;">
-            <h2>Faça seu Login</h2>
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Senha" required>
-            <button>Login com Email</button>
-            <button style="background: #DB4437;">Login com Google</button>
-        </div>
+      
 
         <!-- Popup -->
         <div class="popup" id="popup">
@@ -249,7 +277,7 @@
     <footer>
         <p>&copy; 2024 Site Jupter. Todos os direitos reservados.</p>
     </footer>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
     <script>
         let selectedPlan = null;
         let cartItems = [];
@@ -310,40 +338,56 @@
         }
 
         function addToCart() {
-            if (selectedPlan) {
-                cartItems.push({ name: selectedPlan.name, price: selectedPlan.price });
-                alert(`${selectedPlan.name} adicionado ao carrinho!`);
-                selectedPlan = null; // Reseta o plano selecionado
-                updateCart(); // Atualiza o carrinho
-            }
-            closePopup();
+        if (selectedPlan) {
+            cartItems.push({ name: selectedPlan.name, price: selectedPlan.price });
+            alert(`${selectedPlan.name} adicionado ao carrinho!`);
+            selectedPlan = null; // Reseta o plano selecionado
         }
+        
+        if (selectedBot) {
+            const existingBot = cartItems.find(item => item.name === selectedBot.name);
+            if (!existingBot) {
+                // Adiciona o bot, incluindo o arquivo no carrinho
+                cartItems.push({
+                    name: selectedBot.name,
+                    price: selectedBot.price,
+                    description: selectedBot.description,
+                    file: selectedBot.file // Inclui o arquivo no carrinho
+                });
+                alert(`${selectedBot.name} adicionado ao carrinho!`);
+            } else {
+                alert(`${selectedBot.name} já está no carrinho!`);
+            }
+        }
+        updateCart(); // Atualiza o carrinho
+        closePopup();
+    }
 
         function updateCart() {
-            document.getElementById('cart').style.display = 'block'; // Exibe o carrinho
-            const cartItemsContainer = document.getElementById('cartItems');
-            cartItemsContainer.innerHTML = ''; // Limpa o carrinho
+        document.getElementById('cart').style.display = 'block'; // Exibe o carrinho
+        const cartItemsContainer = document.getElementById('cartItems');
+        cartItemsContainer.innerHTML = ''; // Limpa o carrinho
 
-            if (cartItems.length === 0) {
-                cartItemsContainer.innerHTML = 'Nenhum item no carrinho.';
-                return;
-            }
-
-            cartItems.forEach((item, index) => {
-                const cartItemDiv = document.createElement('div');
-                cartItemDiv.className = 'cart-item';
-                cartItemDiv.innerHTML = `
-                    <span>${item.name} - R$${item.price.toFixed(2)}</span>
-                    <button onclick="removeFromCart(${index})">Excluir</button>
-                `;
-                cartItemsContainer.appendChild(cartItemDiv);
-            });
+        if (cartItems.length === 0) {
+            cartItemsContainer.innerHTML = 'Nenhum item no carrinho.';
+            return;
         }
 
-        function removeFromCart(index) {
-            cartItems.splice(index, 1); // Remove o item do carrinho
-            updateCart(); // Atualiza o carrinho
-        }
+        cartItems.forEach((item, index) => {
+            const cartItemDiv = document.createElement('div');
+            cartItemDiv.className = 'cart-item';
+            cartItemDiv.innerHTML = `
+                <span>${item.name} - R$${item.price.toFixed(2)}</span>
+                <button class="remove-btn" onclick="removeFromCart(${index})" style="background: none; border: none; color: #e74c3c; font-size: 20px; cursor: pointer;">&times;</button>
+            `;
+            cartItemsContainer.appendChild(cartItemDiv);
+        });
+    }
+
+    function removeFromCart(index) {
+        cartItems.splice(index, 1); // Remove o item do carrinho
+        updateCart(); // Atualiza o carrinho
+    }
 
        
 
@@ -352,16 +396,57 @@
             updateCart(); // Atualiza o carrinho
         }
 
-        function proceedToCheckout() {
+        
+        async function proceedToCheckout() {
+        try {
+            let totalValue = 0;
             let message = 'Olá, gostaria de adquirir: \n';
-            cartItems.forEach(item => {
-                message += `${item.name} - R$${item.price ? item.price.toFixed(2) : ''}\n`;
-            });
-            const whatsappUrl = `https://api.whatsapp.com/send?phone=556981134127&text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-            alert('Compra finalizada!');
-        }
+            let zip = new JSZip(); // Cria uma instância do JSZip
+            let hasItems = cartItems.length > 0; // Verifica se há itens no carrinho
 
+            if (!hasItems) {
+                alert("O carrinho está vazio. Adicione itens para finalizar a compra.");
+                return;
+            }
+
+            // Adiciona os itens do carrinho ao ZIP e calcula o total
+            cartItems.forEach(item => {
+                console.log("Item:", item); // Log temporário para debug
+                message += `${item.name} - R$${item.price.toFixed(2)}\n`;
+                totalValue += item.price; // Soma o valor total dos itens
+
+                // Verifica se o item tem um arquivo e o adiciona ao ZIP
+                if (item.file) {
+                    console.log("Adicionando arquivo ao ZIP:", item.file.name); // Log temporário para debug
+                    zip.file(item.file.name, item.file); // Adiciona o arquivo original ao ZIP
+                } else {
+                    // Cria um arquivo de texto para cada item sem arquivo
+                    zip.file(item.name + ".txt", `Nome: ${item.name}\nDescrição: ${item.description || 'Sem descrição'}\nPreço: R$${item.price.toFixed(2)}`);
+                }
+            });
+
+            console.log("Total Value:", totalValue); // Log temporário para debug
+
+            // Verifica se o total é maior ou igual a 1
+            if (totalValue >= 1) {
+                // Redireciona para o WhatsApp com os detalhes da compra
+                const whatsappUrl = `https://api.whatsapp.com/send?phone=556981134127&text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+                alert('Compra finalizada! Detalhes enviados via WhatsApp.');
+            } else {
+                // Se o total for 0, faz o download do arquivo ZIP
+                const content = await zip.generateAsync({ type: "blob" });
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(content);
+                downloadLink.download = 'detalhes_compra.zip';
+                downloadLink.click(); // Dispara o download automático
+                alert('Download concluído para itens gratuitos!');
+            }
+        } catch (error) {
+            console.error("Erro ao finalizar a compra:", error);
+            alert("Ocorreu um erro ao finalizar a compra. Tente novamente.");
+        }
+    }
         function showUploadForm() {
             document.getElementById('uploadForm').style.display = 'block';
         }
@@ -371,39 +456,40 @@
         }
 
         function uploadBot() {
-            const user = prompt("Digite o usuário:");
-            const password = prompt("Digite a senha:");
+        const user = prompt("Digite o usuário:");
+        const password = prompt("Digite a senha:");
 
-            if (user === "kmoods" && password === "10052008") {
-                const botName = document.getElementById('botName').value;
-                const botDescription = document.getElementById('botDescription').value;
-                const botPrice = parseFloat(document.getElementById('botPrice').value);
-                const botFile = document.getElementById('botFile').files[0];
+        if (user === "kmoods" && password === "10052008") {
+            const botName = document.getElementById('botName').value;
+            const botDescription = document.getElementById('botDescription').value;
+            const botPrice = parseFloat(document.getElementById('botPrice').value);
+            const botFile = document.getElementById('botFile').files[0]; // Captura o arquivo do input
 
-                if (!botName || !botFile || isNaN(botPrice)) {
-                    alert("Nome do bot, arquivo e preço são obrigatórios.");
-                    return;
-                }
-
-                const newBot = {
-                    name: botName,
-                    description: botDescription,
-                    price: botPrice
-                };
-
-                bots.push(newBot);
-                localStorage.setItem('bots', JSON.stringify(bots)); // Salva os bots no localStorage
-                displayBots(); // Atualiza a lista de bots
-
-                closeUploadForm();
-                document.getElementById('botName').value = '';
-                document.getElementById('botDescription').value = '';
-                document.getElementById('botPrice').value = '';
-                document.getElementById('botFile').value = '';
-            } else {
-                alert("Usuário ou senha incorretos!");
+            if (!botName || !botFile || isNaN(botPrice)) {
+                alert("Nome do bot, arquivo e preço são obrigatórios.");
+                return;
             }
+
+            const newBot = {
+                name: botName,
+                description: botDescription,
+                price: botPrice,
+                file: botFile // Armazena o arquivo no objeto bot
+            };
+
+            bots.push(newBot);
+            localStorage.setItem('bots', JSON.stringify(bots)); // Salva os bots no localStorage
+            displayBots(); // Atualiza a lista de bots
+
+            closeUploadForm();
+            document.getElementById('botName').value = '';
+            document.getElementById('botDescription').value = '';
+            document.getElementById('botPrice').value = '';
+            document.getElementById('botFile').value = '';
+        } else {
+            alert("Usuário ou senha incorretos!");
         }
+    }
 
         // Exibe os bots ao carregar a página
         displayBots();
