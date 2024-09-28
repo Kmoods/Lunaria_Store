@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compra de Bots e Planos Premium</title>
+    <title>Planos Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -12,7 +12,6 @@
             padding: 0;
             background: linear-gradient(to right, #121212, #1e1e1e);
             color: #ffffff;
-            overflow-x: hidden;
         }
 
         header {
@@ -27,519 +26,178 @@
             color: #50e3c2;
         }
 
-        
-
         .container {
             padding: 20px;
         }
 
-        .login-form, .plan-card, .bot-card, .cart {
+        .plan-card {
             background: rgba(40, 40, 40, 0.8);
             border-radius: 8px;
             padding: 20px;
             margin: 20px 0;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+            text-align: center;
         }
 
-        .login-form input, .login-form button, .plan-card button, .bot-card button {
-            width: calc(100% - 20px);
+        .plan-card h2 {
+            color: #50e3c2;
+        }
+
+        .plan-card button {
+            background: #4a90e2;
+            color: #fff;
+            width: 100%;
             padding: 10px;
-            margin: 10px 0;
             border: none;
             border-radius: 5px;
+            cursor: pointer;
             transition: background 0.3s;
         }
 
-        .login-form input {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-        }
-
-        .login-form button {
-            background: #50e3c2;
-            color: #ffffff;
-            cursor: pointer;
-        }
-
-        .login-form button:hover {
-            background: #4aa03a;
-        }
-
-        .plan-card, .bot-card {
-            text-align: center;
-        }
-
-        .plan-card h2, .bot-card h2 {
-            color: #50e3c2;
-        }
-
-        .plan-card button, .bot-card button {
-            background: #4a90e2;
-            color: #fff;
-        }
-
-        .plan-card button:hover, .bot-card button:hover {
+        .plan-card button:hover {
             background: #357ab7;
         }
 
+        .Text-1 {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 16px;
+            color: #f0f0f0;
+            line-height: 1.5;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #1e1e1e;
+            border-left: 4px solid #4a90e2;
+            border-radius: 6px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s ease;
+        }
+
+        .Text-1:hover {
+            background-color: #252525;
+        }
+
         .cart {
-            display: none; /* Oculta o carrinho inicialmente */
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: rgba(30, 30, 30, 0.95);
-            position: relative;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Popup */
-        .popup {
-            display: none; /* Oculta o popup inicialmente */
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(50, 50, 50, 0.9);
-            border-radius: 8px;
-            padding: 20px;
-            z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-        }
-
-        .popup h3 {
-            color: #50e3c2;
-        }
-
-        .popup button {
-            background: #e74c3c;
-            color: #fff;
-            cursor: pointer;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 5px;
-        }
-
-        .popup button.confirm {
-            background: #3c54db;
-        }
-
-        .popup button:hover {
-            background: #c0392b;
-        }
-
-        .popup button.confirm:hover {
-            background: #23317ef3;
-        }
-
-        #uploadForm {
-            display: none;
-            margin-top: 20px; /* Adiciona espaço acima do formulário */
-        }
-
-        .upload-button {
-            background: #FFA500; /* Cor do botão de upload */
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .upload-button:hover {
-            background: #FF8C00;
-        }
-
-        .bot-list {
-            margin-top: 20px;
-        }
-
-        .bot-list div {
-            margin: 10px 0;
             background: rgba(50, 50, 50, 0.8);
-            padding: 10px;
-            border-radius: 5px;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
         }
 
-        .cart-item {
+        .cart h2 {
+            color: #50e3c2;
+            margin-bottom: 15px;
+        }
+
+        .cart-items {
+            margin: 10px 0;
+            border: 1px solid #4a90e2;
+            border-radius: 8px;
+            padding: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .cart-items p {
+            margin: 5px 0;
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
 
-        @media (max-width: 768px) {
-            .login-form, .plan-card, .bot-card, .cart {
-                margin: 10px;
-            }
-
-            .login-form input, .login-form button, .plan-card button, .bot-card button {
-                width: calc(100% - 20px);
-            }
-            .stylo-compra{
-                position: relative;
-                font-size: 1;
-                background-color: #4a90e2;
-            }
-        }
-        
-        .checkout-btn {
-            background-color: #00cc66;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 1.2rem;
+        .checkout-button {
+            background: #0862d8;
+            color: #fff;
+            width: 100%;
+            padding: 10px;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
-            margin-top: 20px;
+            transition: background 0.3s;
+            margin-top: 15px;
         }
 
-        .checkout-btn:hover {
-            background-color: #00994d;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        .checkout-button:hover {
+            background: #2a5ead;
         }
 
-        .checkout-btn:active {
-            transform: scale(0.98);
+        .total-price {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #50e3c2;
+            font-weight: bold;
         }
-        .remove-btn {
-    background: none;
-    border: none;
-    color: #e74c3c;
-    font-size: 22px;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.remove-btn:hover {
-    color: #ff6b6b;
-}
-  /* Estilo comum para todos os inputs */
-  #botName, #botDescription, #botPrice, #botFile {
-        width: 95%;
-        padding: 12px 12px;
-        margin: 10px 0;
-        border: 2px solid #4a90e2; /* Cor da borda */
-        border-radius: 5px;
-        background: rgba(255, 255, 255, 0.1); /* Fundo transparente */
-        color: #ffffff; /* Cor do texto */
-        font-size: 16px;
-        transition: border-color 0.3s, background-color 0.3s; /* Transições suaves */
-    }
-
-    /* Estilo para o input quando focado */
-    #botName:focus, #botDescription:focus, #botPrice:focus, #botFile:focus {
-        outline: none;
-        border-color: #4a90e2; /* Cor da borda ao focar */
-        background: rgba(255, 255, 255, 0.2); /* Fundo um pouco mais claro ao focar */
-    }
-
-    /* Estilo para os placeholders */
-    #botName::placeholder, #botDescription::placeholder, #botPrice::placeholder {
-        color: rgba(255, 255, 255, 0.6); /* Cor mais clara para o placeholder */
-    }
-
-.Text-1 {
-    font-family: 'Helvetica Neue', sans-serif; /* Fonte moderna */
-    font-size: 16px; /* Tamanho da fonte */
-    color: #f0f0f0; /* Cor do texto clara */
-    line-height: 1.5; /* Espaçamento entre linhas */
-    margin: 20px 0; /* Margem superior e inferior */
-    padding: 15px; /* Padding interno */
-    background-color: #1e1e1e; /* Cor de fundo escura */
-    border-left: 4px solid #4a90e2; /* Borda à esquerda em tom vibrante */
-    border-radius: 6px; /* Bordas arredondadas */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra mais pronunciada */
-    transition: background-color 0.3s ease; /* Transição suave para mudança de cor */
-}
-
-.Text-1:hover {
-    background-color: #252525; /* Muda a cor de fundo ao passar o mouse */
-}
-
-
-
     </style>
 </head>
 <body>
     <header>
-        <h1>Compra de Bots e Planos Premium</h1>
+        <h1>Planos Premium</h1>
     </header>
     <div class="container">
-        <div class="plan-card" id="premiumPlans">
-            <h2>Planos Premium</h2>
-            <p>Escolha um dos nossos planos premium para aproveitar funcionalidades exclusivas!</p>
+        <div class="plan-card">
+            <h2>Escolha um dos nossos planos premium</h2>
             <div>
-                <h3>Plano Básico - R$2,00</h3>
-                <p class="Text-1">Alem do plano basico caber no seu bolso, você tera acesso ao menu premium.</p>
-                <button onclick="selectPlan('Plano Básico', 2.00)">Selecionar</button>
+                <h3>🥉Plano Básico - R$2,00</h3>
+                <p class="Text-1">Além do plano básico caber no seu bolso, você terá acesso ao menu premium.</p>
+                <button onclick="selectPlan('Plano Básico', 2.00)">Adicionar ao Carrinho</button>
             </div>
             <div>
-                <h3>Plano Avançado - R$6,50</h3>
-                <p class="Text-1">No plano avançado, você tera acesso ao menu eo um grupo vip com contato direto com os adm e la tera as novidades antecipadas do Jupter lá tera um bot somente para os vip.</p>
-                <button onclick="selectPlan('Plano Avançado', 6.50)">Selecionar</button>
+                <h3>🥈Plano Avançado - R$6,50</h3>
+                <p class="Text-1">No plano avançado, você terá acesso ao menu e um grupo VIP com contato direto com os admins, além das novidades.</p>
+                <button onclick="selectPlan('Plano Avançado', 6.50)">Adicionar ao Carrinho</button>
             </div>
             <div>
-                <h3>Plano Premium - R$9,00</h3>
-                <p class="Text-1">No plano premium você tera, acesso ao grupo vip, acesso ao bot vip, pedir comandos novos (ilimitados), e podera ter um bot para seu grupo de WhatsApp (opcional)</p>
-                <button onclick="selectPlan('Plano Premium', 9.00)">Selecionar</button>
+                <h3>🥇Plano Elite - R$10,00</h3>
+                <p class="Text-1">Com o plano elite, você terá todas as vantagens dos planos anteriores, mais atualizações exclusivas e suporte prioritário.</p>
+                <button onclick="selectPlan('Plano Elite', 10.00)">Adicionar ao Carrinho</button>
             </div>
         </div>
-
-        <div class="bot-card" id="availableBots">
-            <h2>Bots Disponíveis</h2>
-            <p>Veja nossos bots disponíveis para download.</p>
-            <div class="bot-list" id="botList"></div>
-            <button class="upload-button" onclick="showUploadForm()">Fazer Upload de Bot</button>
-            <div id="uploadForm">
-                <h3>Upload de Bot</h3>
-                <input type="text" id="botName" placeholder="Nome do Bot" required>
-                <input type="text" id="botDescription" placeholder="Descrição (opcional)">
-                <input type="number" id="botPrice" placeholder="Preço" required>
-                <input type="file" id="botFile" required>
-                <button onclick="uploadBot()">Fazer Upload</button>
-                <button onclick="closeUploadForm()">Fechar</button>
-
-            </div>
-        </div>
-
-        <div class="cart" id="cart">
+        <div class="cart">
             <h2>Carrinho</h2>
-            <div id="cartItems">Nenhum item no carrinho.</div>
-            
-            <button onclick="proceedToCheckout()" class="checkout-btn" >Finalizar Compra</button>
-        </div>
-
-      
-
-        <!-- Popup -->
-        <div class="popup" id="popup">
-            <h3 id="popupTitle"></h3>
-            <p id="popupDescription"></p>
-            <p id="popupPrice"></p>
-            <button class="confirm" id="confirmButton" onclick="addToCart()">Confirmar</button>
-            <button onclick="closePopup()">Fechar</button>
+            <div class="cart-items" id="cart-items">
+                <!-- Os itens do carrinho aparecerão aqui -->
+            </div>
+            <div class="total-price" id="total-price">Total: R$0.00</div>
+            <button class="checkout-button" id="checkout-button" onclick="checkout()">Confirmar Compra</button>
         </div>
     </div>
-    <footer>
-        <p>&copy; 2024 Site Jupter. Todos os direitos reservados.</p>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
     <script>
-        let selectedPlan = null;
-        let cartItems = [];
-        let selectedBot = null;
-        let bots = JSON.parse(localStorage.getItem('bots')) || [];
+        let cart = [];
 
-        function displayBots() {
-            const botList = document.getElementById('botList');
-            botList.innerHTML = ''; // Limpa a lista de bots
-
-            bots.forEach(bot => {
-                const botItem = document.createElement('div');
-                botItem.innerHTML = `<h3>${bot.name}</h3><p>${bot.description}</p><p>Preço: R$${bot.price.toFixed(2)}</p><button onclick="confirmAddToCart('${bot.name}')">Selecionar</button>`;
-                botList.appendChild(botItem);
-            });
-        }
-
-        function selectPlan(planName, planPrice) {
-            if (selectedPlan) {
-                alert('Você já selecionou um plano. Para mudar, finalize a compra.');
-                return;
-            }
-            selectedPlan = { name: planName, price: planPrice };
-            showPopup(`Você selecionou ${planName}`, `Descrição do ${planName}.`, `R$${planPrice.toFixed(2)}`);
-        }
-
-        function confirmAddToCart(botName) {
-            selectedBot = bots.find(bot => bot.name === botName);
-            showPopup(`Você selecionou ${selectedBot.name}`, `Descrição do ${selectedBot.description}.`, `Preço: R$${selectedBot.price.toFixed(2)}`);
-        }
-
-        function showPopup(title, description, price) {
-            document.getElementById('popupTitle').innerText = title;
-            document.getElementById('popupDescription').innerText = description;
-            document.getElementById('popupPrice').innerText = price ? `Preço: ${price}` : '';
-            document.getElementById('popup').style.display = 'block'; // Exibe o popup
-        }
-
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none'; // Oculta o popup
-        }
-
-        function addToCart() {
-            if (selectedPlan) {
-                cartItems.push({ name: selectedPlan.name, price: selectedPlan.price });
-            }
-            if (selectedBot) {
-                const existingBot = cartItems.find(item => item.name === selectedBot.name);
-                if (!existingBot) {
-                    cartItems.push(selectedBot);
-                    alert(`${selectedBot.name} adicionado ao carrinho!`);
-                } else {
-                    alert(`${selectedBot.name} já está no carrinho!`);
-                }
-            }
+        function selectPlan(planName, price) {
+            cart.push({ planName, price });
             updateCart();
-            closePopup();
+            alert("Você adicionou: " + planName + " por R$" + price.toFixed(2) + " ao carrinho.");
         }
-
-        function addToCart() {
-        if (selectedPlan) {
-            cartItems.push({ name: selectedPlan.name, price: selectedPlan.price });
-            alert(`${selectedPlan.name} adicionado ao carrinho!`);
-            selectedPlan = null; // Reseta o plano selecionado
-        }
-        
-        if (selectedBot) {
-            const existingBot = cartItems.find(item => item.name === selectedBot.name);
-            if (!existingBot) {
-                // Adiciona o bot, incluindo o arquivo no carrinho
-                cartItems.push({
-                    name: selectedBot.name,
-                    price: selectedBot.price,
-                    description: selectedBot.description,
-                    file: selectedBot.file // Inclui o arquivo no carrinho
-                });
-                alert(`${selectedBot.name} adicionado ao carrinho!`);
-            } else {
-                alert(`${selectedBot.name} já está no carrinho!`);
-            }
-        }
-        updateCart(); // Atualiza o carrinho
-        closePopup();
-    }
 
         function updateCart() {
-        document.getElementById('cart').style.display = 'block'; // Exibe o carrinho
-        const cartItemsContainer = document.getElementById('cartItems');
-        cartItemsContainer.innerHTML = ''; // Limpa o carrinho
+            const cartItemsContainer = document.getElementById('cart-items');
+            const totalPriceContainer = document.getElementById('total-price');
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
 
-        if (cartItems.length === 0) {
-            cartItemsContainer.innerHTML = 'Nenhum item no carrinho.';
-            return;
-        }
-
-        cartItems.forEach((item, index) => {
-            const cartItemDiv = document.createElement('div');
-            cartItemDiv.className = 'cart-item';
-            cartItemDiv.innerHTML = `
-                <span>${item.name} - R$${item.price.toFixed(2)}</span>
-                <button class="remove-btn" onclick="removeFromCart(${index})" style="background: none; border: none; color: #e74c3c; font-size: 20px; cursor: pointer;">&times;</button>
-            `;
-            cartItemsContainer.appendChild(cartItemDiv);
-        });
-    }
-
-    function removeFromCart(index) {
-        cartItems.splice(index, 1); // Remove o item do carrinho
-        updateCart(); // Atualiza o carrinho
-    }
-
-       
-
-        function removeFromCart(index) {
-            cartItems.splice(index, 1); // Remove o item do carrinho
-            updateCart(); // Atualiza o carrinho
-        }
-
-        
-        async function proceedToCheckout() {
-        try {
-            let totalValue = 0;
-            let message = 'Olá, gostaria de adquirir: \n';
-            let zip = new JSZip(); // Cria uma instância do JSZip
-            let hasItems = cartItems.length > 0; // Verifica se há itens no carrinho
-
-            if (!hasItems) {
-                alert("O carrinho está vazio. Adicione itens para finalizar a compra.");
-                return;
-            }
-
-            // Adiciona os itens do carrinho ao ZIP e calcula o total
-            cartItems.forEach(item => {
-                console.log("Item:", item); // Log temporário para debug
-                message += `${item.name} - R$${item.price.toFixed(2)}\n`;
-                totalValue += item.price; // Soma o valor total dos itens
-
-                // Verifica se o item tem um arquivo e o adiciona ao ZIP
-                if (item.file) {
-                    console.log("Adicionando arquivo ao ZIP:", item.file.name); // Log temporário para debug
-                    zip.file(item.file.name, item.file); // Adiciona o arquivo original ao ZIP
-                } else {
-                    // Cria um arquivo de texto para cada item sem arquivo
-                    zip.file(item.name + ".txt", `Nome: ${item.name}\nDescrição: ${item.description || 'Sem descrição'}\nPreço: R$${item.price.toFixed(2)}`);
-                }
+            cart.forEach(item => {
+                const p = document.createElement('p');
+                p.textContent = item.planName;
+                const price = document.createElement('span');
+                price.textContent = "R$" + item.price.toFixed(2);
+                p.appendChild(price);
+                cartItemsContainer.appendChild(p);
+                total += item.price;
             });
 
-            console.log("Total Value:", totalValue); // Log temporário para debug
-
-            // Verifica se o total é maior ou igual a 1
-            if (totalValue >= 1) {
-                // Redireciona para o WhatsApp com os detalhes da compra
-                const whatsappUrl = `https://api.whatsapp.com/send?phone=556981134127&text=${encodeURIComponent(message)}`;
-                window.open(whatsappUrl, '_blank');
-                alert('Compra finalizada! Detalhes enviados via WhatsApp.');
-            } else {
-                // Se o total for 0, faz o download do arquivo ZIP
-                const content = await zip.generateAsync({ type: "blob" });
-                const downloadLink = document.createElement('a');
-                downloadLink.href = URL.createObjectURL(content);
-                downloadLink.download = 'detalhes_compra.zip';
-                downloadLink.click(); // Dispara o download automático
-                alert('Download concluído para itens gratuitos!');
-            }
-        } catch (error) {
-            console.error("Erro ao finalizar a compra:", error);
-            alert("Ocorreu um erro ao finalizar a compra. Tente novamente.");
-        }
-    }
-        function showUploadForm() {
-            document.getElementById('uploadForm').style.display = 'block';
+            totalPriceContainer.textContent = "Total: R$" + total.toFixed(2);
         }
 
-        function closeUploadForm() {
-            document.getElementById('uploadForm').style.display = 'none';
-        }
-
-        function uploadBot() {
-        const user = prompt("Digite o usuário:");
-        const password = prompt("Digite a senha:");
-
-        if (user === "kmoods" && password === "10052008") {
-            const botName = document.getElementById('botName').value;
-            const botDescription = document.getElementById('botDescription').value;
-            const botPrice = parseFloat(document.getElementById('botPrice').value);
-            const botFile = document.getElementById('botFile').files[0]; // Captura o arquivo do input
-
-            if (!botName || !botFile || isNaN(botPrice)) {
-                alert("Nome do bot, arquivo e preço são obrigatórios.");
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Seu carrinho está vazio!");
                 return;
             }
-
-            const newBot = {
-                name: botName,
-                description: botDescription,
-                price: botPrice,
-                file: botFile // Armazena o arquivo no objeto bot
-            };
-
-            bots.push(newBot);
-            localStorage.setItem('bots', JSON.stringify(bots)); // Salva os bots no localStorage
-            displayBots(); // Atualiza a lista de bots
-
-            closeUploadForm();
-            document.getElementById('botName').value = '';
-            document.getElementById('botDescription').value = '';
-            document.getElementById('botPrice').value = '';
-            document.getElementById('botFile').value = '';
-        } else {
-            alert("Usuário ou senha incorretos!");
+            let total = cart.reduce((acc, item) => acc + item.price, 0);
+            const message = "Olá! Gostaria de confirmar meu pedido de: \n" + cart.map(item => item.planName + " - R$" + item.price.toFixed(2)).join("\n") + "\nTotal: R$" + total.toFixed(2);
+            const phoneNumber = "556981134127"; // Seu número do WhatsApp
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, "_blank");
         }
-    }
-
-        // Exibe os bots ao carregar a página
-        displayBots();
     </script>
 </body>
 </html>
